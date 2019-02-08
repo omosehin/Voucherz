@@ -5,7 +5,6 @@ import TableList from "../View/TableList/TableList";
 import Vourcher from "../View/Vourcher/Voucher";
 import CreateBulkVoucherDashBoard from '../View/Vourcher/CreateVoucher/Bulk/CreateBulkVoucherDashboard/CreateBulkVoucherDashboard'
 import CreateSingleVoucherDashboard from '../View/Vourcher/CreateVoucher/Standalone/CreateSingleVoucherDashboard/CreateSingleVoucherDashboard'
-import Redemption from "../View/Redemption/index";
 
 const dashboardRoutes = [
   {
@@ -22,14 +21,6 @@ const dashboardRoutes = [
     navbarName: "Voucher",
     icon: Person,
     component: Vourcher
-  },
-  
-  {
-    path: "/redemption",
-    sidebarName: "Redemption",
-    navbarName: "Redemption",
-    icon: Person,
-    component: Redemption
   },
   {
     path: "/table",

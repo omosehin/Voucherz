@@ -8,7 +8,7 @@ import Dashboard from '../../Components/Dashboard/Layout/Dashboard/Dashboard';
 import PasswordForgetPage from '../../AuthenticationAuth/PasswordForget';
 import ChangePasswordPage from '../../AuthenticationAuth/PasswordChange';
 import NotFound from '../../AuthenticationAuth/Error/NotFound'
- import ProtectedRoute from '../../constants/ProtectedRoute'
+  import ProtectedRoute from '../../constants/ProtectedRoute'
 
 class App extends Component{
 
@@ -27,8 +27,6 @@ class App extends Component{
       <ProtectedRoute exact path={ROUTES.TABLE} component={Dashboard} />
       <ProtectedRoute exact path={ROUTES.BULK} component={Dashboard} />
       <ProtectedRoute exact path={ROUTES.STANDALONE} component={Dashboard} />
-      <ProtectedRoute exact path={ROUTES.UPDATE} component={Dashboard} />
-      <ProtectedRoute exact path={ROUTES.REDEMPTION} component={Dashboard} />
 
       <Route path={ROUTES.NOTFOUND} component={NotFound} /> 
     </div>
