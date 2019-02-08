@@ -1,0 +1,11 @@
+com\iswAcademy\Auditservice\service\IAuditService.class
+com\iswAcademy\Auditservice\Config.class
+com\iswAcademy\Auditservice\events\AuditMessage.class
+com\iswAcademy\Auditservice\repository\AuditRepository.class
+com\iswAcademy\Auditservice\events\Event.class
+com\iswAcademy\Auditservice\controller\AuditController.class
+com\iswAcademy\Auditservice\consumer\AuditConsumer.class
+com\iswAcademy\Auditservice\model\User.class
+com\iswAcademy\Auditservice\service\AuditService.class
+com\iswAcademy\Auditservice\AuditServiceApplication.class
+com\iswAcademy\Auditservice\controller\AuditController$HelloResource.class

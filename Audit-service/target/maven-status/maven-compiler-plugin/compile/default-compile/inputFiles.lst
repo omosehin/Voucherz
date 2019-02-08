@@ -1,0 +1,16 @@
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\repository\AuditRepository.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\config\AppConfig.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\events\Event.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\controller\AuditController.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\config\RabbitMgConfig.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\consumer\CustomMessageListener.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\events\CustomMessage.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\service\IAuditService.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\model\BaseEntity.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\model\User.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\service\AuditService.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\events\UserCreatedEvent.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\events\UserUpdatedEvent.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\AuditServiceApplication.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\consumer\Consumer.java
+C:\Users\SANDRA\Documents\GitHub\Audit-service\src\main\java\com\iswAcademy\Auditservice\events\UserLoginEvent.java
