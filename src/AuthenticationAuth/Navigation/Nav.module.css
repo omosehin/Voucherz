@@ -1,0 +1,124 @@
+/* 
+ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    height: 100%;
+    justify-content:space-evenly;
+    color: white;
+    background-color: rgb(78, 45, 2);
+    
+}
+
+ul li{
+    text-decoration: none;
+    height: 50px;
+
+
+}
+
+@media (min-width: 500px) {
+    ul{
+        flex-flow: row;
+        margin-top: -70px;
+
+    }
+}
+
+.NavigationItem {
+    margin: 10px 0;
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    margin-top: -5px;
+    
+}
+
+.NavigationItem a {
+    color: #8F5C2C;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    color: white;
+
+}
+@media only screen and (max-width: 600px) {
+    .NavigationItem a {
+    color: #8F5C2C;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    color: white;
+
+}
+    .NavigationItem a {
+     display: inline-block;
+   }
+ }
+
+
+
+.NavigationItem a:hover,
+.NavigationItem a:active,
+.NavigationItem a.active {
+    color: rgb(0, 0, 0);
+    background: rgb(255, 255, 255);
+    font-weight: bolder
+}
+
+.NavigationItem a:hover,
+ {
+    color: white;
+    background-color: #8F5C2C;
+    
+}
+
+@media (min-width: 500px) {
+
+    .NavigationItem {
+        margin: 0;
+        display: flex;
+        height: 100%;
+        width: auto;
+        align-items: center;
+    }
+    
+    .NavigationItem a {
+        color: rgb(255, 255, 255);
+        height: 100%;
+        padding: 16px 10px;
+        border-bottom: 4px solid transparent;
+    }
+    
+   
+    .NavigationItem a:active,
+    .NavigationItem a.active {
+        background-color: #8F5C2C;
+        border-bottom: 4px solid #40A4C8;
+    }
+}
+
+@media (min-width:300px) {
+    
+ul{
+    display: inline-block;
+    
+}
+
+ul li{
+    display: inline-block;
+    padding-left: 10px;
+
+
+    }
+    .NavigationItem a:active,
+    .NavigationItem a.active {
+        background-color: #8F5C2C;
+        border-bottom: 4px solid #40A4C8;
+    }
+} */

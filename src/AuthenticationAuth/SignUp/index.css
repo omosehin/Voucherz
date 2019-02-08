@@ -1,0 +1,26 @@
+/* form input.error {
+    border-color: red;
+  } */
+ 
+
+  form button {
+    display: block;
+    width: 100%;
+    appearance: none;
+    border-radius: 5px;
+    background-color: #84c00c;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    height: 40px;
+    margin-top: 30px;
+  }
+  
+  form button:hover {
+    background-color: #669509;
+  }
+  
+  form button:disabled {
+    background-color: #dbf99f;
+    color: #333;
+  }

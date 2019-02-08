@@ -1,0 +1,29 @@
+
+
+.Gridradius{
+    
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    background:black;
+}
+
+.Homegrid{
+    background: url("./backgrounda.jpg") center/cover;
+    width: 100%;
+    height: 80vh;  
+    margin-top:-50px;
+
+}
+
+.MuiGrid-grid-xs-12-51{
+    margin-top:-50px;
+}
+.ButtonHome{
+    position: relative;
+    top: 430px;
+    left:350px;
+    border: 2px solid black;
+    background-color: blue;
+}
+
