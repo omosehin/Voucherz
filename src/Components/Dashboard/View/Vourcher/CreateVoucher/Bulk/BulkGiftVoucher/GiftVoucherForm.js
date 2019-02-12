@@ -19,7 +19,7 @@ class GiftVourcherForm extends Component {
         charset: "",
         length:"",
         lengthPattern:"",
-        separator:"-",
+        separator:"",
         category:"",
         prefix:"",
         postfix:"",
@@ -56,7 +56,6 @@ class GiftVourcherForm extends Component {
             [name]: value
           }
         }),
-        () => console.log(this.state.newUser)
 
       );
     }
@@ -83,7 +82,6 @@ class GiftVourcherForm extends Component {
               [name]: value
             }
           }),
-          () => console.log(this.state.newUser)
 
         );
       }
@@ -91,7 +89,6 @@ class GiftVourcherForm extends Component {
   
 
   handleTextArea=(e)=>{
-    console.log("Inside handleTextArea");
     let value = e.target.value;
     this.setState(
       prevState => ({
@@ -100,7 +97,6 @@ class GiftVourcherForm extends Component {
           additionalInfo: value
         }
       }),
-      () => console.log(this.state.newUser)
 
     );
   }
@@ -118,21 +114,21 @@ const userData = {
  const voucherData = JSON.stringify(userData)
  console.log(voucherData);
   let token =sessionStorage.getItem('data');
+  let email=sessionStorage.getItem('email')
 
  const headers = {
      "Content-Type": "application/json",
-     //  "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb3lAZ21haWwuY29tIiwiaWF0IjoxNTQ5NTMzNzUwLCJleHAiOjE1NDk1MzQ3NTB9.YkLXH0bqYU0EGtJYaWUYsFSg-srlDapsC_hKTCAGMwFIglstNbhLlUW_f-zXQ3EXy7ibQ7vP-NVghU8SpiasWg"
       "Authorization": `Bearer ${token}`
 
  }
-    axios.post(`http://172.20.20.17:8082/api/voucher/gift/bulk/create`, voucherData, {"headers": headers} )
+    axios.post(`http://172.20.20.17:8082/api/voucher/gift/bulk/create/${email}`, voucherData, {"headers": headers} )
       .then(res => {
         console.log(res);
-        alert('successful')
+        alert(`successfully created`)
         console.log(res.data);
         this.setState({
           newUser:{
-            voucherType:"Value",
+            voucherType:"",
             value:"",
             charset: "",
             lenght:"",
@@ -297,7 +293,7 @@ const userData = {
                   </Grid> 
                   <Grid xs={12} md={5}  style={{margin:"3px"}}>
                   <Input
-                    required
+                    
                     // inputType={"number"}
                      title={"Prefix"}
                     name={"prefix"}
@@ -311,7 +307,7 @@ const userData = {
                   
                   <Grid xs={12} md={5}  style={{margin:"3px"}}>
                     <Input
-                        required
+                        
                         // inputType={"number"}
                         title={"Postfix"}
                         name={"postfix"}

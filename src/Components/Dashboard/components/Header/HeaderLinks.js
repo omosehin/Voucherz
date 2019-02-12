@@ -47,10 +47,13 @@ class HeaderLinks extends React.Component {
   };
 
   render() {
+    let email=sessionStorage.getItem('email')
+
     const { classes } = this.props;
     const { open } = this.state;
     return (
       <div
+      
         style={{marginRight:'20px'}}
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justicon={window.innerWidth > 959}
@@ -58,9 +61,11 @@ class HeaderLinks extends React.Component {
           aria-label="Person"
           className={classes.buttonLink}
         >
+                {`Welcome ${email} to VOUCHERZ`}
+
+        
            <SignOut/>
           
-        
       </div>
     );
   }

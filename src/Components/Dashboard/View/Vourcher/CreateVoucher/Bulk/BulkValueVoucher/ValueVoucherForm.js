@@ -59,7 +59,7 @@ class ValueVoucherForm extends Component {
         charset: "",
         length:"",
         lengthPattern:"",
-        separator:"-",
+        separator:"",
         category:"",
         prefix:"",
         postfix:"",
@@ -128,7 +128,6 @@ class ValueVoucherForm extends Component {
   
 
   handleTextArea=(e)=>{
-    console.log("Inside handleTextArea");
     let value = e.target.value;
     this.setState(
       prevState => ({
@@ -156,6 +155,7 @@ const{ voucherType, category, expirationDate,startDate,charset, amount, length, 
     const voucherData = JSON.stringify(userData)
     console.log(voucherData);
      let token =sessionStorage.getItem('data');
+     let email=sessionStorage.getItem('email')
 
     const headers = {
         "Content-Type": "application/json",
@@ -163,7 +163,7 @@ const{ voucherType, category, expirationDate,startDate,charset, amount, length, 
          "Authorization": `Bearer ${token}`
 
     }
-    axios.post(`http://172.20.20.17:8082/api/voucher/value/bulk/create`, voucherData, {"headers": headers})
+    axios.post(`http://172.20.20.17:8082/api/voucher/value/bulk/create/${email}`, voucherData, {"headers": headers})
     .then(res => { 
       alert( 'Successfully created ');
       console.log("Succesfully Generated");
@@ -347,7 +347,7 @@ const{ voucherType, category, expirationDate,startDate,charset, amount, length, 
                   </Grid> 
                   <Grid xs={12} md={5}  style={{margin:"3px"}}>
                   <Input
-                    required
+                    
                     // inputType={"number"}
                      title={"Prefix"}
                     name={"prefix"}
@@ -361,7 +361,7 @@ const{ voucherType, category, expirationDate,startDate,charset, amount, length, 
                   
                   <Grid xs={12} md={5}  style={{margin:"3px"}}>
                     <Input
-                        required
+                        
                         // inputType={"number"}
                         title={"Postfix"}
                         name={"postfix"}

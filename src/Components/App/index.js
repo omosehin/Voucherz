@@ -5,10 +5,12 @@ import { BrowserRouter as Router,Route } from 'react-router-dom';
  import HomePage from '../../AuthenticationAuth/HomePage/Hompage';
  import * as ROUTES from '../../constants/routes';
 import Dashboard from '../../Components/Dashboard/Layout/Dashboard/Dashboard';
+ import Admindashboard from '../../Admin/Layout/Dashboard/Dashboard'
 import PasswordForgetPage from '../../AuthenticationAuth/PasswordForget';
 import ChangePasswordPage from '../../AuthenticationAuth/PasswordChange';
-import NotFound from '../../AuthenticationAuth/Error/NotFound'
-  import ProtectedRoute from '../../constants/ProtectedRoute'
+import NotFound from '../../AuthenticationAuth/Error/NotFound';
+import ProtectedRoute from '../../constants/ProtectedRoute';
+import PrivateRoute from '../../constants/PrivateRoute';
 
 class App extends Component{
 
@@ -22,11 +24,19 @@ class App extends Component{
       <Route exact path={ROUTES.SIGN_IN} component={SignInPage} /> 
       <Route exact path={ROUTES.CHANGE_PASSWORD} component={ChangePasswordPage} /> 
       <Route exact path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage}/> 
+      
       <ProtectedRoute exact path={ROUTES.DASHBOARD} component={Dashboard} />
       <ProtectedRoute exact path={ROUTES.VOUCHER} component={Dashboard} />
       <ProtectedRoute exact path={ROUTES.TABLE} component={Dashboard} />
       <ProtectedRoute exact path={ROUTES.BULK} component={Dashboard} />
       <ProtectedRoute exact path={ROUTES.STANDALONE} component={Dashboard} />
+      <ProtectedRoute exact path={ROUTES.REDEMPTION} component={Dashboard} />     
+      <PrivateRoute exact path={ROUTES.ADMINDASHBOARD} component={Admindashboard} />
+      <PrivateRoute exact path={ROUTES.AUDITTRAIL} component={Admindashboard} />
+      <PrivateRoute exact path={ROUTES.USER} component={Admindashboard} />
+
+
+      
 
       <Route path={ROUTES.NOTFOUND} component={NotFound} /> 
     </div>

@@ -7,6 +7,7 @@ import Select from "../../../../../components/Forms/Select"
 import TextArea from "../../../../../components/Forms/TextArea"
 import Button from "../../../../../components/Forms/Button"
 import axios from "axios";
+import {Redirect} from 'react-router-dom';
 
 
 
@@ -26,13 +27,13 @@ class DiscountVoucherForm extends Component {
   state={
       newUser:{
         discountType:"",
-        voucherType: "Discount_Bulk",
+        voucherType: "Discount",
         unit:"",
         numberOfCodeToGenerate:"",
         percentage:"",
         amount:"",
         category:"",
-        separator:"-",
+        separator:"",
         lengthPattern:"",
         charset: "",
         length:"",
@@ -41,12 +42,14 @@ class DiscountVoucherForm extends Component {
         pattern:"",
         startDate:"",
         expirationDate:"",
-        additionInfo:"",
+        additionalInfo:"",
       },
       discountTypes:["Percentage","Amount","Unit"],
       charsetOptions:["Numbers","Alphabet","Alphanumeric"],
       lengthPatterns:["Length","Pattern"],
-      disabled:false
+      disabled:false,
+      redirect: false
+
   }
 
   handleDisable=()=>{
@@ -69,7 +72,6 @@ class DiscountVoucherForm extends Component {
             [name]: value
           }
         }),
-        // () => console.log(this.state.newUser)
       );
     }
   }
@@ -133,13 +135,12 @@ class DiscountVoucherForm extends Component {
   
 
   handleTextArea=(e)=>{
-    console.log("Inside handleTextArea");
     let value = e.target.value;
     this.setState(
       prevState => ({
         newUser: {
           ...prevState.newUser,
-          additionInfo: value
+          additionalInfo: value
         }
       }),
     );
@@ -149,35 +150,37 @@ class DiscountVoucherForm extends Component {
   handleFormSubmit=(e)=>{
     e.preventDefault();
     // let userData=[this.state.newUser];
-    const { amount,percentage,unit,category,numberOfCodeToGenerate,charset,length,prefix,postfix,pattern,startDate,expirationDate,additionInfo,lengthPattern} =this.state.newUser
+    const { amount,percentage,unit,category,numberOfCodeToGenerate,voucherType,discountType,charset,length,prefix,postfix,pattern,startDate,expirationDate,additionalInfo,separator,lengthPattern} =this.state.newUser
     const discountValue=amount||percentage||unit;
-    const RemainingValue={category,charset,length,numberOfCodeToGenerate,prefix,postfix,pattern,startDate,expirationDate,additionInfo,lengthPattern};
+    const RemainingValue={category,charset,length,numberOfCodeToGenerate,prefix,voucherType,discountType,postfix,pattern,startDate,expirationDate,separator,additionalInfo,lengthPattern};
     const userData={...RemainingValue, discountValue};
      
     const voucherData = JSON.stringify(userData)
     console.log(voucherData);
      let token = sessionStorage.getItem('data');
+     let email=sessionStorage.getItem('email')
 
     const headers = {
         "Content-Type": "application/json",
-          // "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb3lAZ21haWwuY29tIiwiaWF0IjoxNTQ5NTM3OTAxLCJleHAiOjE1NDk1Mzg5MDF9.aUzY60QAzvHeUqGIuwxM718OSDAxFxWueeYl19WoW1L7r1cy9A4EqrOYu_IxoiaxkCYN40GYHY2-s9D48LzoKw"
         "Authorization": `Bearer ${token}`
 
     }
-    axios.post(`http://172.20.20.17:8080/api/voucher/value/single/create`,voucherData, {"headers": headers})
+    axios.post(`http://172.20.20.17:8082/api/voucher/discount/bulk/create/${email}`,voucherData, {"headers": headers})
     .then(res => {
-      alert( 'Successfully created with code ');
+      alert( 'Successfully created');
       console.log("Succesfully Generated")
+      console.log(res.data)
+      
       this.setState({
         newUser:{
           discountType:"",
-          voucherType: "Discount_Bulk",
+          voucherType: "",
           unit:"",
           numberOfCodeToGenerate:"",
           percentage:"",
           amount:"",
           category:"",
-          separator:"-",
+          separator:"",
           lengthPattern:"",
           charset: "",
           length:"",
@@ -186,7 +189,7 @@ class DiscountVoucherForm extends Component {
           pattern:"",
           startDate:"",
           expirationDate:"",
-          additionInfo:"",
+          additionalInfo:"",
         },
         redirect:true
       })
@@ -212,7 +215,7 @@ class DiscountVoucherForm extends Component {
           pattern:"",
           startDate:"",
           expirationDate:"",
-          additionInfo:"",
+          additionalInfo:"",
         }
       })
     })
@@ -222,14 +225,18 @@ class DiscountVoucherForm extends Component {
 
 
   render(){
+    const {redirect} =this.state;
 
+    if (redirect) {
+      return <Redirect to='/table'/>;
+    }
     return (
       
           <CardBody>
     <form className="container-fluid" onSubmit={this.handleFormSubmit} novalidate>
                 <Grid container spacing={24} justify = "center">
                 
-                <Grid   xs={12} md={10} style={{margin:"3px"}}>
+                <Grid   xs={12} md={5} style={{margin:"3px"}}>
                 <Select
                         required={"required"}
                         title={"Discount Type"}
@@ -288,17 +295,16 @@ class DiscountVoucherForm extends Component {
                   >
                   </Input>
                   </Grid >
-                  {/* <Grid xs={12} md={5} style={{margin:"3px"}} > */}
                   <Input
                     inputType={'hidden'}
                      required={"required"}
                      readonly={'readonly'}
-                    value={this.state.newUser.voucherType}
+                     name={"voucherType"}
+                    value={"this.state.newUser.voucherType"}
                     fullWidth
 
                   >
                   </Input>
-                  {/* </Grid > */}
                   
                 <Grid   xs={12} md={5} style={{margin:"3px"}}>
                 <Select
@@ -324,38 +330,38 @@ class DiscountVoucherForm extends Component {
 
                         />
                 </Grid >   
-                <Grid xs={12} md={5}  style={{margin:"3px"}} >
-                  <Input
-                    
-                    required={"required"}
-                    inputType={"number"}
-                     title={"Length"}
-                    name={"length"}
-                    value={this.state.newUser.length}
-                    fullWidth
-                    placeholder={"Enter Voucher Length"}
-                    handleChange={this.VoucherhandleInput}
-                    disabled={(this.state.newUser.lengthPattern==="Length")? "" : "disabled"}
-
-                  >
-                  </Input>
-                  <Grid xs={12}  md={10}  style={{margin:"3px"}}>
-                    <Input
-                          required={"required"}
-                          // inputType={"number"}
-                          title={"Pattern"}
-                          name={"pattern"}
-                          value={this.state.newUser.pattern}
-                          fullWidth
-                          placeholder={"Enter Voucher Pattern"}
-                          handleChange={this.VoucherDateCharsethandleInput}
-                          disabled={(this.state.newUser.lengthPattern==="Pattern")? "" : "disabled"}
-                        >
-                    </Input>
                
-                  </Grid > 
-                      <Grid xs={12}  md={5}  style={{margin:"3px"}}>
-                      </Grid > 
+                  <Grid xs={12} md={5}  style={{margin:"3px"}} >
+                        <Input
+                        
+                        required
+                        inputType={"number"}
+                        title={"Length"}
+                        name={"length"}
+                        value={this.state.newUser.length}
+                        fullWidth
+                        placeholder={"Enter Voucher Length"}
+                        handleChange={this.VoucherhandleInput}
+                        disabled={(this.state.newUser.lengthPattern==="Length")? "" : "disabled"}
+                        >
+                      </Input>
+                  </Grid>
+                  <Grid xs={12}  md={5}  style={{margin:"3px"}}>
+                  <Input
+                         required
+                        // inputType={"number"}
+                        title={"Pattern"}
+                        name={"pattern"}
+                        value={this.state.newUser.pattern}
+                        fullWidth
+                        placeholder={"Pattern(##-####)"}
+                        handleChange={this.VoucherDateCharsethandleInput}
+                        disabled={(this.state.newUser.lengthPattern==="Pattern")? "" : "disabled"}
+
+
+                    >
+                    </Input>
+                  
                   </Grid >  
 
                   <Grid xs={12} md={5}  style={{margin:"3px"}}>
@@ -387,7 +393,6 @@ class DiscountVoucherForm extends Component {
                   </Grid >  
                   <Grid xs={12} md={5}  style={{margin:"3px"}}>
                   <Input 
-                    required={"required"}
                     // inputType={"number"}
                      title={"Prefix"}
                     name={"prefix"}
@@ -401,7 +406,6 @@ class DiscountVoucherForm extends Component {
                   
                   <Grid xs={12} md={5}  style={{margin:"3px"}}>
                     <Input
-                        required={"required"}
                         // inputType={"number"}
                         title={"Postfix"}
                         name={"postfix"}
@@ -413,7 +417,6 @@ class DiscountVoucherForm extends Component {
                     </Input>
                
                   </Grid > 
-                  <Grid xs={12}  md={5}  style={{margin:"3px"}}>
                     <Input
                     required
                         name={"separator"}
@@ -423,7 +426,6 @@ class DiscountVoucherForm extends Component {
                     >
                     </Input>
                
-                  </Grid > 
                   
                   <Grid xs={12}  md={5}>
                     <Input
@@ -439,7 +441,7 @@ class DiscountVoucherForm extends Component {
                     </Input>
                
                   </Grid > 
-                  <Grid xs={12} md={5}>
+                  <Grid xs={12} md={10}>
                     <Input
                     required={"required"}
                     inputType={"date"}
@@ -455,12 +457,12 @@ class DiscountVoucherForm extends Component {
                   </Grid > 
                   <Grid xs={12} md={10}>
                   <TextArea
-                     title={"additionInfo Information"}
+                     title={"additionalInfo Information"}
                      rows={2}
-                     value={this.state.newUser.additionInfo}
+                     value={this.state.newUser.additionalInfo}
                      name={"currentPetInfo"}
                      handleChange={this.handleTextArea}
-                     placeholder={"additionInfo Information"}
+                     placeholder={"additionalInfo Information"}
         />
                   </Grid>
                  

@@ -21,7 +21,7 @@ class ValueVoucherForm extends Component {
         lenght:"",
         pattern:"",
         lengthPattern:"",
-        separator:"-",
+        separator:"",
         category:"",
         prefix:"",
         postfix:"",
@@ -114,13 +114,14 @@ class ValueVoucherForm extends Component {
     // })
 
 const{ voucherType, category, expirationDate,startDate,charset, amount, length, prefix, pattern, postfix,additionalInfo,separator,lengthPattern} = this.state.newUser;
-   const userData = {
+  
+const userData = {
     voucherType, category, expirationDate,startDate,charset, amount, length, prefix, pattern, postfix,additionalInfo,separator,lengthPattern
    } 
+   
     const voucherData = JSON.stringify(userData)
     console.log(voucherData);
     let token = sessionStorage.getItem('data');
-     
 
     const headers = {
         "Content-Type": "application/json",
@@ -294,7 +295,6 @@ const{ voucherType, category, expirationDate,startDate,charset, amount, length, 
                   <Input
                     required
                     // inputType={"number"}
-                     title={"Prefix"}
                     name={"prefix"}
                     value={this.state.newUser.prefix}
                     fullWidth
@@ -306,7 +306,6 @@ const{ voucherType, category, expirationDate,startDate,charset, amount, length, 
                   
                   <Grid xs={12} md={5}  style={{margin:"3px"}}>
                     <Input
-                        required
                         // inputType={"number"}
                         title={"Postfix"}
                         name={"postfix"}

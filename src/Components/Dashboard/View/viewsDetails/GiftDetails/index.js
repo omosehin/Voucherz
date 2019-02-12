@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-import UpdateGift from '../../Vourcher/UpdateVoucher/UpdateGift';
+// import UpdateGift from '../../Vourcher/UpdateVoucher/UpdateGift';
 // import Details from './Details';
 
 const styles = {
@@ -82,12 +82,9 @@ class Details extends React.Component {
           
           <DialogActions>
             <Button onClick={this.handleClose} color="primary"  style={{marginRight: '370px'}} >
-              Disable
+              Close
             </Button>
-            <Button onClick={this.handleClose} color="primary">
-              <UpdateGift
-               />
-            </Button>
+           
           </DialogActions>
         </Dialog>
       </div>

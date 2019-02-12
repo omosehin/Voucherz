@@ -21,6 +21,7 @@ import * as ROUTES from '../../constants/routes';
 import AppBar from '../Navigation/AppBar'
 import NotFound from '../Error/NotFound';
 
+
 const styles = theme => ({
   main: {
     width: 'auto',
@@ -97,8 +98,7 @@ const SignInPage = () => (
 onSubmit = (e) => {
   e.preventDefault();
               document.getElementById("buttonShipper").innerHTML = "signing you in...";
-  // get our form data out of state
-  var apiBaseUrl = 'http://172.20.20.21:8072/user/signin';
+  var apiBaseUrl ='http://e75f32a7.ngrok.io/user/signin';
 
   const {  email, password  } = this.state.newUser;
   
@@ -108,16 +108,45 @@ onSubmit = (e) => {
   }
 
   console.log(JSON.stringify(data));
+ 
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
+};
   axios.post(apiBaseUrl, data, {
       data: JSON.stringify(data),
            
   })
 
   .then((response) => {
-    if(response.data && response.data.accessToken){
-      sessionStorage.setItem('data',response.data.accessToken);
-      this.setState({redirectToReferrer: true});
-     
+    const decrypt = parseJwt(response.data.accessToken)
+  
+  // sessionStorage.setItem('role',decrypt.AUTHORITY[0].authority  ROLE.USER||ROLE.ADMIN)
+
+    console.log(decrypt)
+    // console.log(decrypt.sub)
+    console.log(decrypt.AUTHORITY[0].authority)
+    console.log(response)
+    // console.log(response.data)
+    // console.log( response.data.status)
+    // console.log(response.code)
+    console.log(typeof response.request.status)
+    if (response.request.status ===200){
+      if(decrypt.AUTHORITY[0].authority==="ROLE_USER"){
+        sessionStorage.setItem('data',response.data.accessToken);
+ //       sessionStorage.setItem("email", decrypt.sub)
+        this.setState({redirectToReferrer: true});
+       
+      }
+      
+      else if (decrypt.AUTHORITY[0].authority==="ROLE_ADMIN"){
+ //       sessionStorage.setItem("email", decrypt.sub)
+        sessionStorage.setItem('admin',response.data.accessToken);
+        this.props.history.push("/admin")
+      }
     }
     
     

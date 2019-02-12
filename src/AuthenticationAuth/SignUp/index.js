@@ -104,7 +104,7 @@ class SignUpFormBase extends Component {
     e.preventDefault();
                 document.getElementById("buttonShipper").innerHTML = "signing you up...";
     // get our form data out of state
-    var apiBaseUrl = 'http://172.20.20.21:8085/user/signup';
+    var apiBaseUrl = 'http://172.20.20.21:8072/user/signup';
 
     const { firstName, lastName, email,companySize, password} = this.state;
     

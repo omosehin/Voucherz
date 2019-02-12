@@ -20,7 +20,7 @@ class GiftVourcherForm extends Component {
         length:"",
         category:"",
         lengthPattern:"",
-        separator:"-",
+        separator:"",
         prefix:"",
         postfix:"",
         pattern:"",
@@ -45,6 +45,7 @@ class GiftVourcherForm extends Component {
     
 
 
+    
   VoucherhandleInput=(e) =>{
     let value = e.target.value;
     let name = e.target.name;
@@ -91,7 +92,6 @@ class GiftVourcherForm extends Component {
   
 
   handleTextArea=(e)=>{
-    console.log("Inside handleTextArea");
     let value = e.target.value;
     this.setState(
       prevState => ({
@@ -121,14 +121,14 @@ class GiftVourcherForm extends Component {
     const voucherData = JSON.stringify(userData)
     console.log(voucherData);
     let token = sessionStorage.getItem('data');
+    let email=sessionStorage.getItem('email')
 
    const headers = {
        "Content-Type": "application/json",
-         // "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb3lAZ21haWwuY29tIiwiaWF0IjoxNTQ5NTM3OTAxLCJleHAiOjE1NDk1Mzg5MDF9.aUzY60QAzvHeUqGIuwxM718OSDAxFxWueeYl19WoW1L7r1cy9A4EqrOYu_IxoiaxkCYN40GYHY2-s9D48LzoKw"
        "Authorization": `Bearer ${token}`
 
    }
-   axios.post(`http://172.20.20.17:8082/api/voucher/gift/single/create`,voucherData, {"headers": headers})
+   axios.post(`http://172.20.20.17:8082/api/voucher/gift/single/create/${email}`,voucherData, {"headers": headers})
    .then(res => {
      alert( 'Successfully created with code ');
      console.log("Succesfully Generated")
@@ -161,7 +161,7 @@ class GiftVourcherForm extends Component {
         lenght:"",
         pattern:"",
         lengthPattern:"",
-        separator:"-",
+        separator:"",
         category:"",
         prefix:"",
         postfix:"",
@@ -181,6 +181,7 @@ class GiftVourcherForm extends Component {
   render(){
     
     const {redirect} =this.state;
+    // const isInvalid =startDate > expirationDate;
 
     if (redirect) {
       return <Redirect to='/table'/>;
@@ -193,16 +194,28 @@ class GiftVourcherForm extends Component {
     <form className="container-fluid" onSubmit={this.handleFormSubmit}>
                 <Grid container spacing={24} justify = "center">
                 <Grid xs={12} md={5} style={{margin:"3px"}} >
-                  <Input
-                    inputType={"hidden"}
+                <Input
+                    inputType={'hidden'}
                      required={"required"}
                      readonly={'readonly'}
-                    value={this.state.newUser.voucherType}
+                     name={"voucherType"}
+                    value={"this.state.newUser.voucherType"}
                     fullWidth
 
                   >
                   </Input>
                 </Grid >
+                <Grid xs={12}  md={5}  style={{margin:"3px"}}>
+                    <Input
+                    required
+                        name={"separator"}
+                        value={this.state.newUser.separator}
+                        inputType={'hidden'}
+                        fullWidth
+                    >
+                    </Input>
+               
+                  </Grid > 
                 <Grid xs={12} md={10}>
                   <Input
                     required
@@ -287,7 +300,6 @@ class GiftVourcherForm extends Component {
                   </Grid>
                   <Grid xs={12} md={5}  style={{margin:"3px"}}>
                   <Input
-                    required
                     // inputType={"number"}
                      title={"Prefix"}
                     name={"prefix"}
@@ -301,7 +313,6 @@ class GiftVourcherForm extends Component {
                   
                   <Grid xs={12} md={5}  style={{margin:"3px"}}>
                     <Input
-                        required
                         // inputType={"number"}
                         title={"Postfix"}
                         name={"postfix"}
@@ -316,19 +327,18 @@ class GiftVourcherForm extends Component {
                   
                   <Grid xs={12}  md={5}>
                     <Input
-                        required
                         inputType={"date"}
                         title={"Start Date"}
                         name={"startDate"}
                         value={this.state.newUser.startDate}
                         fullWidth
                         placeholder={"startDate"}
-                        handleChange={this.VoucherDateCharsethandleInput}
+                        // handleChange={this.VoucherDateCharsethandleInput}
                     >
                     </Input>
                
                   </Grid > 
-                  <Grid xs={12} md={5}>
+                  <Grid xs={12} md={10}>
                     <Input
                         required
                         inputType={"date"}
@@ -347,7 +357,7 @@ class GiftVourcherForm extends Component {
                      title={"additionalInfo Information"}
                      rows={2}
                      value={this.state.newUser.additionalInfo}
-                     name={"currentPetInfo"}
+                     name={"additionInfo"}
                      handleChange={this.handleTextArea}
                      placeholder={"additionalInfo Information"}
         />
@@ -357,7 +367,6 @@ class GiftVourcherForm extends Component {
                   <button
                           action={this.handleFormSubmit}                           
                             type='Submit'
-                            
                         style={buttonStyle}>
                    Submit
                 </button>

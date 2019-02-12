@@ -9,11 +9,11 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Spinner from "../../components/Spinner";
 import axios from "axios";
-import ViewsDetails from "../viewsDetails/GiftDetails";
 import { CSVLink} from "react-csv";
-import ClassesStyle from './TableSearch.module.css';
 import GridContainer from '../../components/Grid/GridContainer'
 import GridItem from '../../components/Grid/GridItem'
+import UpdateGift from '../Vourcher/UpdateVoucher/UpdateGift';
+import ViewsDetails from "../viewsDetails/GiftDetails/index";
 
 const styles = theme => ({
   root: {
@@ -25,8 +25,9 @@ const styles = theme => ({
     minWidth: 700
   },
   input:{
-    width:'80px',
-    heigt:"10px"
+    width:'100%',
+    height:"40px",
+    marginBottom:"20px"
   }
 });
 const csvStyle  = {
@@ -50,21 +51,19 @@ super()
     isLoading: true,
     error: null,
     searchVouchertype: "",
-    searchStartdate: "",
+    searchValue: "",
     filterData: {}
   };
   this.download = this.download.bind(this)
 
 }
  
-
-  updateSearchVouchertype = e => {
-    this.setState({ searchVouchertype: e.target.value.substr(0, 20) });
-  };
+updateSearchVouchertype = e => {
+  this.setState({ searchVouchertype: e.target.value.substr(0, 20) });
+};
   componentDidMount() {
-    axios.get("http://172.20.20.17:8082/api/voucher/gift/search/findByGiftType/gift", {
-        responseType: "json"
-      })
+    
+    axios.get("https://172.20.20.17:8082/api/voucher/gift/search/findByGiftType/gift")
       .then(response => {
         const newUser = response.data;
         this.setState({
@@ -81,32 +80,6 @@ super()
       );
   }
 
-  // componentDidMount(){ 
-  //   if(sessionStorage.getItem('data'))
-  //   {
-  //   let token = sessionStorage.getItem('data');
-    
-  //   console.log(token);
-  //   axios.get(`http://172.20.20.17:8082/api/voucher/gift/search/findByGift/gift`, { headers: {"Authorization" : `Bearer ${token}`} })
-  //   .then(response => {
-  //           const newUser = response.data;
-  //           this.setState({
-  //             newUser,
-  //             isLoading: false
-  //           });
-  //           console.log(response);
-  //         })
-  //         .catch(error =>
-  //           this.setState({
-  //             error,
-  //             isLoading: false
-  //           })
-           
-  //         );
-  //   }
-  // }
-
-
 
   /* Csv Download by React Csv*/
   ///////////////////////
@@ -114,12 +87,11 @@ super()
     this.filteredData = this.state.newUser.map(user => user);
     this.headers = [
       { label: "Merchant ID", key: "merchantid" },
-      { label: "Merchant ID", key: "merchantid" },
       { label: "Voucher ID", key: "voucherType" },
       { label:  "StartDate", key:"startDate"},
       { label:  "ExpirationDate", key:"expirationDate"},
       { label: "Voucher code", key: "code"},
-      { label:  "Status", key:"Status"},
+      { label:  "Status", key:"status"},
       { label:  "Category", key:"category"},
 
 
@@ -135,8 +107,10 @@ super()
 
   render() {
     const { classes } = this.props;
-    const { isLoading } = this.state;
+    const { isLoading,newUser } = this.state;
     let i=1;
+    console.log("users", newUser);
+
     let filteredvoucherType=this.state.newUser.filter(
       (user)=>{
         return user.category.toLowerCase().indexOf(
@@ -154,9 +128,10 @@ super()
               maxlength="50"
               value={this.state.searchVouchertype}
               onChange={this.updateSearchVouchertype}
-              placeholder={" Seach Voucher by Category" }
+              placeholder={" SEARCH BY CATEGORY" }
           />
           </GridItem>
+          
           <GridItem xs={6} sm={6} md={4}> {this.download()} </GridItem>
 
         </GridContainer>
@@ -213,6 +188,12 @@ super()
                 >
                   View
                 </TableCell> 
+                <TableCell
+                  align="left"
+                  style={{ color: "purple", fontSize: "15px" }}
+                >
+                  Update
+                </TableCell> 
               </TableRow>
             </TableHead>
 
@@ -247,7 +228,7 @@ super()
                   <TableCell 
                    align="left" 
                     style={{ fontSize: "12px" }}>
-                    {user.Status}
+                    {user.status}
                   </TableCell>
                   <TableCell
                      align="left" 
@@ -265,11 +246,19 @@ super()
                       expirationDate={user.expirationDate}
                       status={user.status}                     
                       category={user.category}
+                      amount={user.amount}
                       additionInfo={user.additionInfo}
-
+                      
                     />
                   </TableCell>
-                 
+                  <TableCell>
+                    <UpdateGift
+                     align="left" 
+                     style={{ fontSize: "12px"}}                     
+                     fields={user}/>
+
+                    
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

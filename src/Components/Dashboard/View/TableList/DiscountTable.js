@@ -11,11 +11,10 @@ import Spinner from "../../components/Spinner";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 import ViewsDetails from "../viewsDetails/Discount/index";
-// import TableSearchVouchertype from './TableSearchVouchertype/FormSearchVouchertype';
 import { CSVLink} from "react-csv";
-import ClassesStyle from './TableSearch.module.css';
 import GridContainer from '../../components/Grid/GridContainer'
 import GridItem from '../../components/Grid/GridItem'
+import UpdateDiscount from  "../Vourcher/UpdateVoucher/UpdateDiscount"
 
 const styles = theme => ({
   root: {
@@ -25,6 +24,11 @@ const styles = theme => ({
   },
   table: {
     minWidth: 700
+  },
+  input:{
+    width:'100%',
+    height:"40px",
+    marginBottom:"20px"
   }
 });
 const csvStyle  = {
@@ -48,23 +52,25 @@ super()
     isLoading: true,
     error: null,
     searchVouchertype: "",
-    searchStartdate: "",
-    filterData: {}
+    filterData: {},
+    searchValue: "",
+
   };
   this.download = this.download.bind(this)
 
 }
  
 
-  updateSearchVouchertype = e => {
-    this.setState({ searchVouchertype: e.target.value.substr(0, 20) });
-  };
-
+updateSearchVouchertype = e => {
+  this.setState({ searchVouchertype: e.target.value.substr(0, 20) });
+};
   componentDidMount() {
-    axios
-      .get(" https://demo5882170.mockable.io", {
-        responseType: "json"
-      })
+    if(sessionStorage.getItem('data'))
+    {
+   let token = sessionStorage.getItem('data');
+   
+    console.log(token);
+ axios.get("https://172.20.20.17:8082//api/voucher/search/bytype/discount", { headers: {"Authorization" : `Bearer ${token}`} })
       .then(response => {
         const newUser = response.data;
         this.setState({
@@ -80,13 +86,12 @@ super()
         })
       );
   }
-
+  }
   /* Csv Download by React Csv*/
   ///////////////////////
   download(){
     this.filteredData = this.state.newUser.map(user => user);
     this.headers = [
-      { label: "Merchant ID", key: "merchantid" },
       { label: "Merchant ID", key: "merchantid" },
       { label: "Voucher ID", key: "voucherType" },
       { label:  "StartDate", key:"startDate"},
@@ -122,14 +127,15 @@ super()
        <GridContainer justify = "center">
           <GridItem xs={6} sm={6} md={6} >
           <input
-              className={ClassesStyle.input}
-              type="text"
+            className={classes.input}       
+             type="text"
               maxlength="50"
               value={this.state.searchVouchertype}
               onChange={this.updateSearchVouchertype}
-              placeholder={" Seach Voucher by Category" }
+              placeholder={" SEARCH VOUCHER BY CATEGORY" }
           />
           </GridItem>
+          
           <GridItem xs={6} sm={6} md={4}> {this.download()} </GridItem>
 
         </GridContainer>
@@ -215,7 +221,7 @@ super()
                   <TableCell 
                     align="left"  
                     style={{fontSize:'12px'}}>
-                    {user.Code.length<10 ? user.Code:user.Code.substring(0,12)+'...'}
+                    {user.code.length<10 ? user.code:user.code.substring(0,12)+'...'}
                   </TableCell>
                   <TableCell 
                    align="left" 
@@ -233,14 +239,21 @@ super()
                   <TableCell align="left">
                     <ViewsDetails
                       voucherType={user.voucherType}
-                      startDate={user.voucherType}
-                      expirationDate={user.startDate}
+                      startDate={user.startDate}
+                      expirationDate={user.expirationDate}
                       status={user.status}                     
                       category={user.category}
                       additionInfo={user.additionInfo}
                       quantity={user.quantity}
+                      />
+                  </TableCell>
+                  <TableCell>
+                    <UpdateDiscount
+                     align="left" 
+                     style={{ fontSize: "12px"}}                     
+                     fields={user}/>
 
-                    />
+                    
                   </TableCell>
                  
                 </TableRow>

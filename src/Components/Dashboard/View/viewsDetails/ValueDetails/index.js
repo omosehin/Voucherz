@@ -6,8 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-import UpdateValue from '../../Vourcher/UpdateVoucher/UpdateValue';
-// import Details from './Details';
+
 
 const styles = {
   dialogPaper: {
@@ -22,8 +21,10 @@ function Transition(props) {
 
 class Details extends React.Component {
   state = {
-    open: false,
+    open: false
   };
+
+  
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -34,6 +35,7 @@ class Details extends React.Component {
   };
 
   render() {
+    
     return (
       <div style={{}}>
         <Button variant="outlined" color="primary" onClick={this.handleClickOpen} center>
@@ -52,16 +54,10 @@ class Details extends React.Component {
               minHeight: "70vh",
               minWidth: "40vw"
             }
-          }}
-          
+          }}>
 
-
-        >
           <DialogTitle id="alert-dialog-slide-title">
             {"VOUCHER CODE"}
-          
-                    
-                  
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
@@ -75,19 +71,19 @@ class Details extends React.Component {
                 <li style={{marginBottom:"20px"}}>Value: {this.props.value}</li>
                 <li style={{marginBottom:"20px"}}>Quantity: {this.props.quantity}</li>
                 <li style={{marginBottom:"20px"}}>AdditionInfo: {this.props.additionInfo}</li>
-
+                <li style={{marginBottom:"20px"}}>Amount: {this.props.amount}</li>
             </ul>
             </DialogContentText>
           </DialogContent>
           
           <DialogActions>
             <Button onClick={this.handleClose} color="primary"  style={{marginRight: '370px'}} >
+              Close
+            </Button>
+            <Button disabled={true} color="primary"  style={{marginRight: '370px'}} >
               Disable
             </Button>
-            <Button onClick={this.handleClose} color="primary">
-              <UpdateValue
-               />
-            </Button>
+            
           </DialogActions>
         </Dialog>
       </div>

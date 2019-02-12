@@ -22,7 +22,7 @@ class DiscountVoucherForm extends Component {
         percentage:"",
         amount:"",
         category:"",
-        separator:"-",
+        separator:"",
         charset: "",
         length:"",
         lengthPattern:"",
@@ -31,7 +31,7 @@ class DiscountVoucherForm extends Component {
         pattern:"",
         startDate:"",
         expirationDate:"",
-        additionInfo:"",
+        additionalInfo:"",
       },
       discountTypes:["Percentage","Amount","Unit"],
       charsetOptions:["Numbers","Alphabet","Alphanumeric"],
@@ -43,7 +43,7 @@ class DiscountVoucherForm extends Component {
   handleDisable=(e)=>{
     this.setState((prevState)=>{
       return(
-        ({disabled:!prevState.disabled & ""})
+        ({disabled:!prevState.disabled})
       );
     })
   }
@@ -130,13 +130,12 @@ class DiscountVoucherForm extends Component {
   
 
   handleTextArea=(e)=>{
-    console.log("Inside handleTextArea");
     let value = e.target.value;
     this.setState(
       prevState => ({
         newUser: {
           ...prevState.newUser,
-          additionInfo: value
+          additionalInfo: value
         }
       }),
     );
@@ -145,27 +144,27 @@ class DiscountVoucherForm extends Component {
   handleFormSubmit=(e)=>{
     e.preventDefault();
     // let userData=[this.state.newUser];
-    const { amount,percentage,unit,category,charset,length,prefix,postfix,pattern,startDate,expirationDate,additionInfo,lengthPattern} =this.state.newUser
+    const { amount,percentage,unit,category,charset,voucherType,discountType,length,prefix,postfix,pattern,startDate,separator,expirationDate,additionalInfo,lengthPattern} =this.state.newUser
     const discountValue=amount||percentage||unit;
-    const RemainingValue={category,charset,length,prefix,postfix,pattern,startDate,expirationDate,additionInfo,lengthPattern};
+    const RemainingValue={category,charset,length,voucherType,discountType,prefix,postfix,pattern,startDate,separator,expirationDate,additionalInfo,lengthPattern};
     const userData={...RemainingValue, discountValue};
-     
+
     console.log(userData);
     const voucherData = JSON.stringify(userData)
     console.log(voucherData);
-    let token = JSON.parse(sessionStorage.getItem('data'));
+    let token = sessionStorage.getItem('data');
+    let email=sessionStorage.getItem('email')
 
     const headers = {
         "Content-Type": "application/json",
-        //  "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb3lAZ21haWwuY29tIiwiaWF0IjoxNTQ5NTE3MDUxLCJleHAiOjE1NDk1MTgwNTF9.lnwYO5kVuLD-SyyRTYt_iVmBprmIbrDDuMQ7hYyQSPMexJJZcwnUp1m-k46FxxoOihp2P7Y-micDKp1_IQOSyw"
         "Authorization": `Bearer ${token}`
-
     }
-    axios.post(`http://172.20.20.17:8082/api/voucher/discount/single/create`,voucherData, {"headers": headers})
+    axios.post(`http://172.20.20.17:8082/api/voucher/discount/single/create/${email}`,voucherData, {"headers": headers})
     .then(res => {
       alert( 'Successfully created with code ');
       console.log("Succesfully Generated")
-      this.setstate({
+      console.log(res.data)
+      this.setState({
         newUser:{
           discountType:"",
           unit:"",
@@ -181,7 +180,7 @@ class DiscountVoucherForm extends Component {
           pattern:"",
           startDate:"",
           expirationDate:"",
-          additionInfo:"",
+          additionalInfo:"",
         },
         redirect:true
       })
@@ -189,7 +188,7 @@ class DiscountVoucherForm extends Component {
     .catch((error) => {
       alert( error + " Voucher Creation Failed")
       console.log(error)
-      this.setstate({
+      this.setState({
         newUser:{
           discountType:"",
           unit:"",
@@ -205,7 +204,7 @@ class DiscountVoucherForm extends Component {
           pattern:"",
           startDate:"",
           expirationDate:"",
-          additionInfo:"",
+          additionalInfo:"",
         }
       })
     })
@@ -238,7 +237,8 @@ onChange = event => {
                     inputType={'hidden'}
                      required={"required"}
                      readonly={'readonly'}
-                    value={this.state.newUser.voucherType}
+                     name={"voucherType"}
+                    value={"this.state.newUser.voucherType"}
                     fullWidth
 
                   >
@@ -379,7 +379,6 @@ onChange = event => {
                   </Grid>
                   <Grid xs={12} md={5}  style={{margin:"3px"}}>
                   <Input 
-                    required={"required"}
                     // inputType={"number"}
                      title={"Prefix"}
                     name={"prefix"}
@@ -393,7 +392,6 @@ onChange = event => {
                   
                   <Grid xs={12} md={5}  style={{margin:"3px"}}>
                     <Input
-                        required={"required"}
                         // inputType={"number"}
                         title={"Postfix"}
                         name={"postfix"}
@@ -406,7 +404,6 @@ onChange = event => {
                
                   </Grid > 
                   
-                  <Grid xs={12}  md={5}  style={{margin:"3px"}}>
                     <Input
                     required
                         name={"separator"}
@@ -416,8 +413,7 @@ onChange = event => {
                     >
                     </Input>
                
-                  </Grid > 
-                  <Grid xs={12}  md={10}>
+                  <Grid xs={12}  md={5}>
                     <Input
                     required={"required"}
                     inputType={"date"}
@@ -431,7 +427,7 @@ onChange = event => {
                     </Input>
                
                   </Grid > 
-                  <Grid xs={12} md={10}>
+                  <Grid xs={12} md={5}>
                     <Input
                     required={"required"}
                     inputType={"date"}
@@ -447,12 +443,12 @@ onChange = event => {
                   </Grid > 
                   <Grid xs={12} md={10}>
                   <TextArea
-                     title={"additionInfo Information"}
+                     title={"additionalInfo Information"}
                      rows={2}
-                     value={this.state.newUser.additionInfo}
+                     value={this.state.newUser.additionalInfo}
                      name={"currentPetInfo"}
                      handleChange={this.handleTextArea}
-                     placeholder={"additionInfo Information"}
+                     placeholder={"additionalInfo Information"}
         />
                   </Grid>
                  
